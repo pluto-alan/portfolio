@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import FadeIn from './FadeIn.jsx'
 import CoverMedia from './WorkMedia.jsx'
 import { useContent } from '../content.jsx'
@@ -11,20 +12,34 @@ const links = [
   { label: '联系', href: '#contact' },
 ]
 
-// 弧形卡墙：沿一道上拱的弧线排布，中间高、两侧低、随弧线旋转
-const ARC_TILT = 18   // 边缘最大旋转角（deg）
-const ARC_DROP = 9    // 边缘下沉量（vh）
+// 小屏（≤900px）时收拢弧线，避免卡片溢出屏幕两侧
+function useIsMobile() {
+  const [mobile, setMobile] = useState(() =>
+    typeof window !== 'undefined' && window.matchMedia('(max-width: 900px)').matches
+  )
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 900px)')
+    const onChange = () => setMobile(mq.matches)
+    mq.addEventListener('change', onChange)
+    return () => mq.removeEventListener('change', onChange)
+  }, [])
+  return mobile
+}
 
 export default function Hero() {
   const { works, siteSettings } = useContent()
+  const isMobile = useIsMobile()
   const line1 = siteSettings?.heroLine1 || '2026'
   const line2 = siteSettings?.heroLine2 || '作品集'
   const midText = siteSettings?.heroMid || '用设计讲好产品故事，让每一次视觉表达都更有价值。'
   // 首屏弧形卡墙固定展示前 HERO_WORK_COUNT 个作品；之后的交给作品带与作品区，互不重复
   const featured = works.slice(0, HERO_WORK_COUNT)
   const n = featured.length
+  // 桌面 / 小屏两套弧线参数：小屏跨度、下沉、旋转都收窄
+  const ARC_TILT = isMobile ? 10 : 18   // 边缘最大旋转角（deg）
+  const ARC_DROP = isMobile ? 7 : 9     // 边缘下沉量（vh）
   // 卡片数量变少时收拢弧线跨度，保持排布紧凑
-  const arcSpread = Math.min(46, 10 + n * 5)
+  const arcSpread = Math.min(isMobile ? 32 : 46, (isMobile ? 8 : 10) + n * (isMobile ? 3.2 : 5))
   const cards = featured.map((w, i) => {
     const t = (i - (n - 1) / 2) / ((n - 1) / 2) // -1 ~ 1
     return {

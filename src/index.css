@@ -707,10 +707,27 @@ img { max-width: 100%; display: block; }
   .hero__card-tag { font-size: 8px; letter-spacing: 0.1em; }
   .hero__card-title { font-size: 10px; line-height: 1.3; }
 
-  /* ---- 作品带 ---- */
-  .marquee { padding: 88px 0 24px; }
-  .marquee__row-clip + .marquee__row-clip { margin-top: 10px; }
-  .marquee__tile { width: min(70vw, 300px); border-radius: 12px; }
+  /* ---- 作品带：改为手势横滑，海报完整显示、可滑动翻看 ---- */
+  .marquee { padding: 72px 0 24px; }
+  .marquee__row-clip {
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x proximity;
+    /* 吸附时保留两侧 20px 边距，首张海报不被吸到屏幕边缘 */
+    scroll-padding: 0 20px;
+  }
+  .marquee__row-clip::-webkit-scrollbar { display: none; }
+  .marquee__row {
+    width: max-content;
+    padding: 0 20px;
+    gap: 12px;
+  }
+  .marquee__tile {
+    width: min(58vw, 280px);
+    border-radius: 12px;
+    scroll-snap-align: start;
+  }
   .marquee__tile-title { font-size: 17px; padding: 0 14px; }
 
   /* ---- 关于 ---- */

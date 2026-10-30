@@ -36,8 +36,16 @@ export default function Marquee() {
         : 0
     }
 
+    const isMobile = () => window.innerWidth <= 768
+
     const update = () => {
       ticking = false
+      // 小屏：行改为原生手势横滑（CSS overflow-x auto），不再用 transform 驱动
+      if (isMobile()) {
+        if (row1Ref.current) row1Ref.current.style.transform = ''
+        if (row2Ref.current) row2Ref.current.style.transform = ''
+        return
+      }
       const section = sectionRef.current
       if (!section) return
       const sectionTop = section.getBoundingClientRect().top + window.scrollY

@@ -1,0 +1,4 @@
+# Netlify 拖拽部署不会读 netlify.toml，只认 _redirects / _headers。
+# 后台 /studio 是前端路由，刷新或直接访问时回落到 index.html。
+/studio          /index.html   200
+/studio/*        /index.html   200

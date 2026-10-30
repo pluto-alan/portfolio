@@ -1,0 +1,15 @@
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+
+# 图片是本地镜像，文件名按内容哈希命名，可以长期强缓存
+/media/cms/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# 构建产物带哈希
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# 入口 HTML 不能长缓存，否则后台发布后前台拿不到新内容
+/index.html
+  Cache-Control: public, max-age=0, must-revalidate

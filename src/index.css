@@ -675,11 +675,10 @@ img { max-width: 100%; display: block; }
   .topnav { padding: 18px 20px 0; }
   .topnav__link { font-size: 13px; letter-spacing: 0.06em; }
 
-  /* ---- 首屏：标题 + 文案 + 卡墙按内容自然排布，不留大段空白 ---- */
+  /* ---- 首屏：不再撑满一屏，标题 → 文案 → 卡墙紧凑排布 ---- */
   .hero {
     height: auto;
-    min-height: 100vh;
-    min-height: 100svh;
+    min-height: 0;
   }
   .hero__mid {
     position: static;
